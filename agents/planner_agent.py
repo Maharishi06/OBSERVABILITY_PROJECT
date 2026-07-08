@@ -5,7 +5,9 @@ class PlannerAgent:
 
     def run(self, task):
 
-        prompt = f"""
+        try:
+
+            prompt = f"""
 You are a Supervisor Planner Agent.
 
 User Task:
@@ -48,22 +50,28 @@ Test Agent
 3. Task
 """
 
-        response = chat(
-            model="llama3.2",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ]
-        )
+            response = chat(
+                model="llama3.2",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ]
+            )
 
-        planner_output = response["message"]["content"]
+            planner_output = response["message"]["content"]
 
-        return {
-            "task": task,
-            "plan": planner_output
-        }
+            return {
+                "task": task,
+                "plan": planner_output
+            }
+
+        except Exception as e:
+
+            print(f"Planner Agent failed: {e}")
+
+            raise
 
 
 if __name__ == "__main__":

@@ -37,8 +37,11 @@ def main():
 
     # Planner Agent
     planner = PlannerAgent()
-    planner_data = planner.run(task)
-
+    planner_data = execute_with_retry(
+    "PlannerAgent",
+    planner.run,
+    task
+)
     print("\n" + "=" * 50)
     print("PLANNER OUTPUT")
     print("=" * 50)
@@ -54,7 +57,11 @@ def main():
 
     # Research Agent
     researcher = ResearchAgent()
-    workflow = researcher.run(workflow)
+    workflow = execute_with_retry(
+    "ResearchAgent",
+    researcher.run,
+    workflow
+)
 
     print("\n" + "=" * 50)
     print("RESEARCH OUTPUT")
@@ -63,7 +70,11 @@ def main():
 
     # Code Generator Agent
     generator = CodeGeneratorAgent()
-    workflow = generator.run(workflow)
+    workflow = execute_with_retry(
+    "CodeGeneratorAgent",
+    generator.run,
+    workflow
+)
 
     print("\n" + "=" * 50)
     print("CODE OUTPUT")
@@ -72,7 +83,11 @@ def main():
 
     # Reviewer Agent
     reviewer = ReviewerAgent()
-    workflow = reviewer.review(workflow)
+    workflow = execute_with_retry(
+    "ReviewerAgent",
+    reviewer.review,
+    workflow
+)
 
     print("\n" + "=" * 50)
     print("REVIEW OUTPUT")
@@ -83,7 +98,11 @@ def main():
 
     # Test Agent
     tester = TestAgent()
-    workflow = tester.run_tests(workflow)
+    workflow = execute_with_retry(
+    "TestAgent",
+    tester.run_tests,
+    workflow
+)
 
     print("\n" + "=" * 50)
     print("TEST OUTPUT")
