@@ -5,6 +5,31 @@ from agents.reviewer_agent import ReviewerAgent
 from agents.test_agent import TestAgent
 from models import WorkflowData
 
+def execute_with_retry(agent_name, agent_function, workflow=None, retries=3):
+
+    for attempt in range(1, retries + 1):
+
+        try:
+            print(f"\nRunning {agent_name} (Attempt {attempt})")
+
+            if workflow:
+                return agent_function(workflow)
+            else:
+                return agent_function()
+
+        except Exception as e:
+
+            print(f"Error: {e}")
+
+            if workflow:
+                workflow.errors.append(
+                    f"{agent_name}: {str(e)}"
+                )
+
+            if attempt == retries:
+                print("Maximum retries reached.")
+                raise
+
 
 def main():
 
